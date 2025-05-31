@@ -2,9 +2,9 @@ package Practica1;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -13,66 +13,79 @@ import java.util.Scanner;
 
 public class Inventario {
 
+
     static Scanner sc = new Scanner(System.in);
-    static ArrayList<Videojuego> inventarioVideojuegos = new ArrayList<>();
+    static ArrayList<Videojuego> inventario = new ArrayList<>();
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws FileNotFoundException {
 
         System.out.println("INVENTARIO" +
-                "\n" + "♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠");
+                "\n" + "♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠" );
 
         for (int i = 0; i < 3; i++) {
             crearVideojuego();
             System.out.println("\n > Videojuego añadido al inventario.\n");
         }
 
-        try (FileWriter writer = new FileWriter("inventario.json")) {
-            gson.toJson(inventarioVideojuegos, writer);
+        /*
+        ArrayList<PersonaJSON> listaPersonas = new ArrayList<>(Arrays.asList(new PersonaJSON("Luis", 25, Arrays.asList("Java", "Python")), new PersonaJSON("Patricia", 40, Arrays.asList("Java", "MongoDB"))));
+        String json = gson.toJson(listaPersonas);
+        System.out.println("JSON: " + json);
+        * */
+
+        String json = "";
+
+        try (FileWriter writer = new FileWriter("src/main/resources/inventario.json")) {
+            json = gson.toJson(inventario);
+            writer.write(json);
             System.out.println("JSON guardado en inventario.json");
         } catch (Exception e) {
             System.out.println("Algo ha ido mal.");
             e.printStackTrace();
         }
-        System.out.println("\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nJSON Prettyfied" + inventarioVideojuegos);
+        System.out.println("\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nJSON Prettyfied\n" + json);
 
-        inventarioVideojuegos.clear();
+        inventario.clear();
 
         System.out.println("\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nInventario vaciado");
 
-        try (FileWriter writer = new FileWriter("persona.json")) {
-            gson.toJson(inventarioVideojuegos, writer);
+        try (FileReader reader = new FileReader("src/main/resources/inventario.json")) {
+            Videojuego[] videojuegosArray = gson.fromJson(reader, Videojuego[].class);
+            if (videojuegosArray != null) {
+                inventario = new ArrayList<>(Arrays.asList(videojuegosArray));
+                System.out.println("\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nInventario cargado desde inventario.json");
+            }
         } catch (Exception e) {
+            System.out.println("Error al cargar inventario:");
             e.printStackTrace();
         }
 
         System.out.println("\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nInventario cargado desde inventario.json");
 
         crearVideojuego();
-        System.out.println("\n > Videojuego añadido al inventario.\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nVideojuegos con precio menor a 30€:");
+        System.out.println("\n > Videojuego añadido al inventario.");
 
-        for (Videojuego videojuego : inventarioVideojuegos) {
+        System.out.println("♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nVideojuegos con precio menor a 30€:");
+
+        for (Videojuego videojuego : inventario) {
             if (videojuego.getPrecio() < 30) {
                 System.out.println(videojuego);
             }
         }
 
-        File file = new File("inventario.json");
-        if (file.delete()) {
-            System.out.println("Borrando inventario antiguo...");
-        } else {
-            System.out.println("Failed to delete persona.json.");
-        }
         System.out.println("\n♥♦♣♠♥♦♣♠♥♦♣♠♥♦♣♠\nInventario actualizado, guardando en inventario.json");
 
-        try (FileReader reader = new FileReader("inventario.json")) {
-            java.lang.reflect.Type type = new TypeToken<ArrayList<Videojuego>>(){}.getType();
-            inventarioVideojuegos = gson.fromJson(reader, type);
-            System.out.println("Inventario actualizado.");
+        try (FileWriter writer = new FileWriter("src/main/resources/inventario.json")) {
+            String json2 = gson.toJson(inventario);
+            writer.write(json2);
+            System.out.println("Inventario actualizado y guardado.");
         } catch (Exception e) {
             System.out.println("Algo ha ido mal.");
             e.printStackTrace();
         }
+
     }
 
     public static void crearVideojuego() {
@@ -88,6 +101,8 @@ public class Inventario {
         ArrayList<String> generos = new ArrayList<>(Arrays.asList(generosArray));
 
         Videojuego videojuego = new Videojuego(nombre, plataforma, precio, generos);
-        inventarioVideojuegos.add(videojuego);
+        inventario.add(videojuego);
     }
 }
+
+

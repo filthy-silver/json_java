@@ -1,0 +1,42 @@
+[
+  {
+    "nombre": "Spyro",
+    "plataforma": "PSX",
+    "precio": 24.9,
+    "disponible": true,
+    "generos": [
+      "plataformas"
+    ]
+  },
+  {
+    "nombre": "Spyro 2",
+    "plataforma": "PSX",
+    "precio": 27.5,
+    "disponible": true,
+    "generos": [
+      "plataformas",
+      " aventura"
+    ]
+  },
+  {
+    "nombre": "Crash Bash",
+    "plataforma": "PSX",
+    "precio": 19.9,
+    "disponible": true,
+    "generos": [
+      "minijuegos",
+      " aventura"
+    ]
+  },
+  {
+    "nombre": "Crash Bandicoot 3",
+    "plataforma": "PSX",
+    "precio": 29.9,
+    "disponible": true,
+    "generos": [
+      "plataformas",
+      " carreras",
+      " aventura"
+    ]
+  }
+]
