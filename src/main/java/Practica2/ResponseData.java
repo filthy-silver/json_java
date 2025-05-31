@@ -1,4 +1,5 @@
 package Practica2;
 
-public class ResponseData {
+class ResponseData {
+    String translatedText;
 }

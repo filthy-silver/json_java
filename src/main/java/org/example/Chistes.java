@@ -1,4 +1,4 @@
-package Practica2;
+package org.example;
 
 
 
@@ -14,7 +14,4 @@ public class Chistes {
     public int id;
     public String lang;
 
-
-    public Chistes() throws IOException {
-    }
 }

@@ -1,4 +1,6 @@
 package Practica2;
 
-public class TranslationResponse {
+class TranslationResponse {
+    ResponseData responseData;
+    int responseStatus;
 }
